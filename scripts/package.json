@@ -1,0 +1,22 @@
+{
+  "name": "plonetheme-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "deploy.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "axios": "^0.27.2",
+    "axios-cookiejar-support": "^4.0.2",
+    "commander": "^9.3.0",
+    "form-data": "^4.0.0",
+    "request": "^2.88.2",
+    "tough-cookie": "^4.0.0"
+  }
+}

@@ -2,7 +2,6 @@
   "name": "smartweb_themes",
   "description": "iA.Smartweb base theme for Plone",
   "private": true,
-  "type": "module",
   "maintainers": [
     {
       "name": "Thomas Lambert (iMio)",
@@ -30,8 +29,10 @@
     "prettier:fix": "npx prettier --write './**/*.{js,jsx,ts,tsx,json,css,scss,sass}'",
     "dry-release": "release-it --dry-run",
     "release": "release-it",
+    "upload": "node ./scripts/upload.js",
     "build": "webpack --mode=production --progress --stats --env theme=$npm_config_theme",
     "build:dev": "webpack --mode=development --progress --stats --env theme=$npm_config_theme",
+    "build:upload": "webpack --mode=production --progress --stats --env theme=$npm_config_theme && pnpm upload --theme=$npm_config_theme",
     "watch": "webpack serve --mode=development --env theme=$npm_config_theme --progress",
     "start": "concurrently --names \"PLONE,WEBPACK\" -c \"bgBlue.bold,bgMagenta.bold\" \"../../../bin/instance fg\" \"npm:watch\""
   },

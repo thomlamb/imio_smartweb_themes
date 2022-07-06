@@ -6,7 +6,11 @@ pipeline {
     timestamps()
   }
   stages {
-    smartwebThemePipeline("boussu")
-    smartwebThemePipeline("wavrecpas")
+    stage("Build boussu") {
+      smartwebThemePipeline("boussu")
+    }
+    stage("Build wavrecpas") {
+      smartwebThemePipeline("wavrecpas")
+    }
   }
 }

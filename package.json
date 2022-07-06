@@ -2,6 +2,7 @@
   "name": "smartweb_themes",
   "description": "iA.Smartweb base theme for Plone",
   "private": true,
+  "type": "module",
   "maintainers": [
     {
       "name": "Thomas Lambert (iMio)",
@@ -68,7 +69,7 @@
     "webpack-dev-server": "^4.8.1"
   },
   "engines": {
-    "node": ">=14",
-    "pnpm": "7.1.7"
+    "node": ">=16",
+    "pnpm": ">=7"
   }
 }

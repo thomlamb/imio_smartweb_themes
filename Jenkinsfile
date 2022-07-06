@@ -1,6 +1,6 @@
 def map = [
   Boussu  : "boussu",
-  Cpas de Wavre: "wavrecpas"
+  Cpas_de_Wavre: "wavrecpas"
 ]
 
 pipeline {

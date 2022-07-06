@@ -1,6 +1,6 @@
-def map = [
-  Boussu  : "boussu",
-  Cpas_de_Wavre: "wavrecpas"
+def folders = [
+  "boussu",
+  "wavrecpas"
 ]
 
 pipeline {
@@ -11,21 +11,17 @@ pipeline {
   stages {
     stage('Initialize') {
       steps {
+        sh 'printenv'
         script {
           map.each { entry ->
             stage ("Build for $entry.key") {
-              when {
-                allOf{
-                  branch "main"
-                  not {
-                    changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
-                  }
-                  changeset "$entry.value/**"
-                }
-              }
-              steps {
+              if (env.BRANCH_NAME == "main") {
+                  // not {
+                  //   changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+                  // }
+                  // changeset "$entry.value/**"
                 echo "$entry.value"
-              }
+              }              
             }
           }
         }

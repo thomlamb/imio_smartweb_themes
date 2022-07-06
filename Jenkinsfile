@@ -1,6 +1,6 @@
-def folders = [
-  "boussu",
-  "wavrecpas"
+def map = [
+  Boussu  : "boussu",
+  Cpas de Wavre: "wavrecpas"
 ]
 
 pipeline {
@@ -9,20 +9,34 @@ pipeline {
     timestamps()
   }
   stages {
-    stage('Initialize') {
-      steps {
-        sh 'printenv'
-        script {
-          map.each { entry ->
-            stage ("Build for $entry.key") {
-              if (env.BRANCH_NAME == "main") {
-                  // not {
-                  //   changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
-                  // }
-                  // changeset "$entry.value/**"
-                echo "$entry.value"
-              }              
+    stage('Build and deploy') {
+      parallel {
+        stage('boussu') {
+          when {
+            allOf{
+              branch "main"
+              not {
+                changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+              }
+              changeset "boussu/**"
             }
+          }
+          steps {
+            smartwebThemePipeline("boussu")
+          }
+        }
+        stage('wavrecpas') {
+          when {
+            allOf{
+              branch "main"
+              not {
+                changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+              }
+              changeset "wavrecpas/**"
+            }
+          }
+          steps {
+            smartwebThemePipeline("wavrecpas")
           }
         }
       }

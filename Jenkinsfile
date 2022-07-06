@@ -1,4 +1,7 @@
-@Library('jenkins-pipeline-scripts') _
+def map = [
+  Boussu  : "boussu",
+  Cpas de Wavre: "wavrecpas"
+]
 
 pipeline {
   agent any
@@ -6,11 +9,27 @@ pipeline {
     timestamps()
   }
   stages {
-    stage("Build boussu") {
-      smartwebThemePipeline("boussu")
-    }
-    stage("Build wavrecpas") {
-      smartwebThemePipeline("wavrecpas")
+    stage('Initialize') {
+      steps {
+        script {
+          map.each { entry ->
+            stage ("Build for $entry.key") {
+              when {
+                allOf{
+                  branch "main"
+                  not {
+                    changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+                  }
+                  changeset "$entry.value/**"
+                }
+              }
+              steps {
+                echo "$entry.value"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

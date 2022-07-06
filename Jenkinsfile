@@ -30,7 +30,7 @@ pipeline {
         }
       }
       steps {
-        make update foldername="wavrecpas"
+        sh {"make update foldername='wavrecpas'"}
       }
     }
   }

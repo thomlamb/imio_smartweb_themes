@@ -1,7 +1,4 @@
-def map = [
-  Boussu  : "boussu",
-  Cpas de Wavre: "wavrecpas"
-]
+@Library('jenkins-pipeline-scripts') _
 
 pipeline {
   agent any

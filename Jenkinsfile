@@ -1,36 +1,41 @@
+@Library('jenkins-pipeline-scripts') _
+
 pipeline {
   agent any
   options {
     timestamps()
   }
   stages {
-    stage('Build boussu') {
-      when {
-        allOf{
-          branch "main"
-          not {
-            changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+    stage('Build and deploy') {
+      parallel {
+        stage('boussu') {
+          when {
+            allOf{
+              branch "main"
+              not {
+                changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+              }
+              changeset "boussu/**"
+            }
           }
-          changeset "boussu/**"
-        }
-      }
-      steps {
-        echo "boussu"
-        // make update foldername='boussu'
-      }
-    }
-    stage('Build wavrecpas') {
-      when {
-        allOf{
-          branch "main"
-          not {
-            changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+          steps {
+            smartwebThemePipeline("boussu")
           }
-          changeset "wavrecpas/**"
         }
-      }
-      steps {
-        make update foldername="wavrecpas"
+        stage('wavrecpas') {
+          when {
+            allOf{
+              branch "main"
+              not {
+                changelog '.*\\[(ci)?\\-?\\s?skip\\-?\\s?(ci)?\\].*'
+              }
+              changeset "wavrecpas/**"
+            }
+          }
+          steps {
+            smartwebThemePipeline("wavrecpas")
+          }
+        }
       }
     }
   }

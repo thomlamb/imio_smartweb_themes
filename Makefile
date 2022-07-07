@@ -1,4 +1,4 @@
-.PHONY
+.PHONY: update
 update:
-	cd $(foldername)
+	echo $(foldername)
 	pnpm build --theme=$(foldername)

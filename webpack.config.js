@@ -5,6 +5,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { extendDefaultPlugins } = require("svgo");
 const { cp } = require("fs");
 
@@ -29,6 +30,22 @@ module.exports = (env, argv) => {
       },
     },
     plugins: [
+      new FaviconsWebpackPlugin({
+        logo: './'+THEME_FOLDER+'/assets/favicon/favicon.png',
+        cache: true,
+        prefix: '/icons',
+        inject: false,
+        favicons: {
+          icons: {
+            android: true, // Create Android homescreen icon. `boolean` or `{ offset, background }` or an array of sources
+            appleIcon: true, // Create Apple touch icons. `boolean` or `{ offset, background }` or an array of sources
+            appleStartup: false, // Create Apple startup images. `boolean` or `{ offset, background }` or an array of sources
+            favicons: true, // Create regular favicons. `boolean` or `{ offset, background }` or an array of sources
+            windows: false, // Create Windows 8 tile icons. `boolean` or `{ offset, background }` or an array of sources
+            yandex: false, // Create Yandex browser icon. `boolean` or `{ offset, background }` or an array of sources
+          },
+        }
+      }),
       new FileManagerPlugin({
         events: {
           onStart: {
@@ -175,8 +192,6 @@ module.exports = (env, argv) => {
               // Lossless optimization with custom option
               // Feel free to experiment with options for better result for you
               plugins: [
-                ["gifsicle", { interlaced: true }],
-                ["jpegtran", { progressive: true }],
                 ["optipng", { optimizationLevel: 5 }],
                 // Svgo configuration here https://github.com/svg/svgo#configuration
                 [
